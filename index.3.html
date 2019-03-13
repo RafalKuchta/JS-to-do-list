@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>To Do List</title>
+</head>
+<style>
+    * {
+    font-family:'Courier New', Courier, monospace;
+}
+</style>
+
+<body>
+    <form action="">
+        <input class="add" type="text">
+        <button>Dodaj zadanie</button>
+    </form>
+
+    <h1>Liczba zadań: <span>0</span></h1>
+    <input class="filter" type="text">
+    <ul></ul>
+
+    <script>
+        let tab = [];
+        const inputAdd = document.querySelector(".add");
+        const btn = document.querySelector("button");
+        const spn = document.querySelector("span");
+        const inputFilter = document.querySelector(".filter");
+        const form = document.querySelector("form");
+        const ul = document.querySelector("ul")
+
+        const removeTask = (e) => {
+            e.target.parentNode.remove();
+            let tab2 = tab.slice(0, tab.length);
+            const index = e.target.parentNode.key;
+            tab2 = tab.splice(index, 1)
+            console.log(tab2);
+            spn.textContent = tab.length;
+        }
+
+        addTask = (e) => {
+            e.preventDefault();
+            if (inputAdd.value === "") return;
+            const input = inputAdd.value;
+            const task = document.createElement("li")
+            task.innerHTML = inputAdd.value + " <button>Usuń</button>"
+            console.log(task)
+            ul.appendChild(task);
+            task.className = "task"
+            inputAdd.value = "";
+            tab.push(task);
+            spn.textContent = tab.length;
+
+            task.querySelector("button").addEventListener("click", removeTask)
+        }
+
+        const filterTasks = (e) => {
+            const inp = e.target.value.toLowerCase();
+            let tab2 = tab.slice(0, tab.length);
+            tab2 = tab.filter(li => li.textContent.toLowerCase().includes(inp));
+            console.log(tab2);
+            ul.textContent = "";
+            tab2.forEach(li => ul.appendChild(li))
+        }
+
+        form.addEventListener("submit", addTask);
+        inputFilter.addEventListener("input", filterTasks)
+    </script>
+</body>
+
+</html>
